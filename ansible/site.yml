@@ -1,0 +1,18 @@
+---
+- include: webservers.yml
+- include: dbservers.yml
+  # tasks:
+  #   - name: Docker group should exist
+  #     group: name=docker state=present
+
+  #   - name: Vagrant should be a member of docker group
+  #     user: name=vagrant groups=docker state=present
+
+  #   - name: Docker should be installed
+  #     yum: name=docker state=present
+
+  #   - name: Docker should be running
+  #     service: name=docker state=started enabled=yes
+
+  #   - name: docker-compose command should be installed
+  #     get_url: url=https://github.com/docker/compose/releases/download/1.5.1/docker-compose-Linux-x86_64 dest=/usr/local/bin/docker-compose mode=755 sha256sum=5b9b6287c95103a553f8902e1e607bf4cdae74466f66a78d25195252ba380b0e
