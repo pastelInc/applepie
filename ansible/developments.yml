@@ -1,5 +1,5 @@
 ---
-- hosts: dbservers
+- hosts: developments
   connection: local
   sudo: yes
   roles:

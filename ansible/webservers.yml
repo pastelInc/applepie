@@ -1,6 +1,0 @@
----
-- hosts: webservers
-  connection: local
-  sudo: yes
-  roles:
-    - common
