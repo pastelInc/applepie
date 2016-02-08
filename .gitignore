@@ -1,2 +1,2 @@
 .vagrant
-ansible/roles/common/files/authorized_keys_for_moongift
+.DS_Store
