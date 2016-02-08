@@ -1,8 +1,7 @@
 # Workspace with ansible
 
-## usage
+## Usage
 
 ```
-$ cp ~/.ssh/id_rsa.pub > ansible/roles/common/files/authorized_keys_for_moongift
 $ vagrant up
 ```
