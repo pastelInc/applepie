@@ -1,31 +1,23 @@
-- name: users exist
-  user: name={{item.name}} state=present password={{item.password}} groups={{item.groups}}
+---
+- name: installed zsh
+  yum: name=zsh state=latest
+
+- name: users
+  # python -c 'import crypt; print crypt.crypt("moongift", "$1$SomeSalt$")'
+  user: name={{item.name}} state=present password={{item.password}} groups={{item.groups}} shell={{item.shell}}
   with_items: users
-  tags: users
 
-- name: ~/.ssh for users exist
-  file: path="/home/{{item.name}}/.ssh" state=directory owner={{item.name}} group={{item.name}} mode=0700
+- name: ~/.ssh for users
+  file: path=/home/{{item.name}}/.ssh state=directory owner={{item.name}} group={{item.name}} mode=0700
   with_items: users
-  tags: users
 
-- name: authorized keys is deployed
-  copy: src="authorized_keys_for_{{item.name}}" dest="/home/{{item.name}}/.ssh/authorized_keys" owner={{item.name}} group={{item.name}} mode=0600
-  with_items: users
-  tags: users
+- name: configured sudo
+  copy: src=sudoers dest=/etc/sudoers owner=root group=root mode=0440
 
-- name: sudo configured
-  copy: src="sudoers" dest="/etc/sudoers" owner=root group=root mode=0440
-
-- name: sshd is configured
+- name: configured sshd
   notify:
     - restart sshd
-  copy: src="sshd_config" dest="/etc/ssh/sshd_config" owner=root group=root mode=0600
-  tags: sshd
+  copy: src=sshd_config dest=/etc/ssh/sshd_config owner=root group=root mode=0600
 
-- name: sshd is enabled and started
+- name: running sshd
   service: name=sshd state=running enabled=yes
-  tags: sshd
-
-- name: firewalld is disabled and stoped
-  service: name=firewalld state=stopped enabled=no
-  tags: firewalld
