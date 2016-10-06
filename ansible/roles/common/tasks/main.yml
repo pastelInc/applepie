@@ -1,23 +1,25 @@
 ---
-- name: installed zsh
+- name: upgrade all packages
+  yum: name=* state=latest
+
+- name: install the latest version of zsh
   yum: name=zsh state=latest
 
-- name: users
+- name: install the latest version of git
+  yum: name=git state=latest
+
+- name: add some users
   # python -c 'import crypt; print crypt.crypt("moongift", "$1$SomeSalt$")'
   user: name={{item.name}} state=present password={{item.password}} groups={{item.groups}} shell={{item.shell}}
   with_items: users
 
-- name: ~/.ssh for users
-  file: path=/home/{{item.name}}/.ssh state=directory owner={{item.name}} group={{item.name}} mode=0700
-  with_items: users
-
-- name: configured sudo
+- name: copy a new sudoers file
   copy: src=sudoers dest=/etc/sudoers owner=root group=root mode=0440
 
-- name: configured sshd
+- name: copy a new sshd file
   notify:
     - restart sshd
   copy: src=sshd_config dest=/etc/ssh/sshd_config owner=root group=root mode=0600
 
-- name: running sshd
-  service: name=sshd state=running enabled=yes
+- name: action to enable service sshd
+  service: name=sshd enabled=yes
