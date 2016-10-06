@@ -4,4 +4,3 @@
   sudo: yes
   roles:
     - common
-    - docker
