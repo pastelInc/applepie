@@ -2,12 +2,58 @@
 - name: upgrade all packages
   yum: name=* state=latest
 
-- name: install the latest version of zsh
-  yum: name=zsh state=latest
+
+- name: shows the full path of zsh
+  shell: which zsh
+  register: pathzsh
+  failed_when: pathzsh.rc not in [0, 1]
+
+- name: download zsh
+  get_url:
+    url: https://sourceforge.net/projects/zsh/files/latest/download?source=files
+    dest: /usr/local/src/zsh.tar.gz
+    mode: 0644
+  when: pathzsh.rc == 1
+
+- name: create a directory zsh if it doesn't exist
+  file: path=/usr/local/src/zsh state=directory mode=0755
+  when: pathzsh.rc == 1
+
+- name: open a tar file zsh
+  shell: tar xzvf zsh.tar.gz -C zsh --strip-components 1
+  args:
+    chdir: /usr/local/src
+  when: pathzsh.rc == 1
+
+- name: install dependency zsh
+  yum: name={{ item }} state=latest
+  with_items:
+    - ncurses-devel
+    - pcre-devel
+  when: pathzsh.rc == 1
+
+- name: install the latest version of zsh (1/3)
+  command: chdir=/usr/local/src/zsh ./configure --prefix=/usr/local --enable-pcre --with-tcsetpgrp
+  when: pathzsh.rc == 1
+
+- name: install the latest version of zsh (2/3)
+  make: chdir=/usr/local/src/zsh
+  when: pathzsh.rc == 1
+
+- name: install the latest version of zsh (3/3)
+  make: chdir=/usr/local/src/zsh target=install
+  become: yes
+  when: pathzsh.rc == 1
+
+- name: copy a new shells file
+  copy: src=shells dest=/etc/shells owner=root group=root mode=0644
+  when: pathzsh.rc == 1
 
 - name: install the latest version of git
   yum: name=git state=latest
 
+- name: change to zsh service
+  user: name=vagrant shell=/usr/local/bin/zsh
 
 - name: copy a new sudoers file
   copy: src=sudoers dest=/etc/sudoers owner=root group=root mode=0440
