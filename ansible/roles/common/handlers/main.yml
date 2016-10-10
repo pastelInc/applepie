@@ -1,3 +1,4 @@
 ---
 - name: action to restart service sshd
   service: name=sshd state=restarted
+...

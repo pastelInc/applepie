@@ -23,3 +23,5 @@
 
 - name: action to enable service sshd
   service: name=sshd enabled=yes
+
+...
