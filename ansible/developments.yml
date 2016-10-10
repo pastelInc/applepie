@@ -1,6 +1,7 @@
 ---
 - hosts: developments
   connection: local
-  sudo: yes
+  become: yes
   roles:
     - common
+...
