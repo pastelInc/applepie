@@ -14,7 +14,7 @@
 
 - name: copy a new sshd file
   notify:
-    - restart sshd
+    - action to restart service sshd
   copy: src=sshd_config dest=/etc/ssh/sshd_config owner=root group=root mode=0600
 
 - name: action to enable service sshd
