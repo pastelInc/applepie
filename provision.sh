@@ -2,7 +2,7 @@
 
 set -eux
 
-if ! [ `which ansible` ]; then
+if ! which ansible >/dev/null 2>&1; then
   sudo yum install -yq epel-release
   sudo yum install -yq ansible sshpass
 fi
