@@ -2,6 +2,8 @@
 - name: upgrade all packages
   yum: name=* state=latest
 
+- name: add remi repository
+  yum: name=http://rpms.famillecollet.com/enterprise/remi-release-7.rpm state=present
 
 - name: shows the full path of zsh
   shell: which zsh
@@ -51,6 +53,15 @@
 
 - name: install the latest version of git
   yum: name=git state=latest
+
+- name: install the latest version of php
+  yum: name={{ item }} enablerepo=remi,remi-php70 state=latest
+  with_items:
+    - php
+    - php-devel
+    - php-mbstring
+    - php-pdo
+    - php-gd
 
 - name: change to zsh service
   user: name=vagrant shell=/usr/local/bin/zsh
