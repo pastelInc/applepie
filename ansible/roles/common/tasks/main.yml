@@ -63,6 +63,38 @@
     - php-pdo
     - php-gd
 
+- name: shows the full path of vim
+  shell: which vim
+  register: pathvim
+  failed_when: pathvim.rc not in [0, 1]
+
+- name: install dependency vim
+  yum: name={{ item }} state=latest
+  with_items:
+    - lua-devel
+    - luajit-devel
+    - perl-ExtUtils-Embed
+    - python-devel
+    - ruby-devel
+  when: pathvim.rc == 1
+
+- name: checkout the vim repo
+  git: repo=https://github.com/vim/vim.git dest=/usr/local/src/vim
+  when: pathvim.rc == 1
+
+- name: install the latest version of vim (1/3)
+  command: chdir=/usr/local/src/vim ./configure --prefix=/usr/local --with-features=huge --enable-perlinterp --enable-pythoninterp --with-python-config-dir=/usr/lib64/python2.7/config --enable-rubyinterp --enable-luainterp --with-luajit --enable-fail-if-missing
+  when: pathvim.rc == 1
+
+- name: install the latest version of vim (2/3)
+  make: chdir=/usr/local/src/vim
+  when: pathvim.rc == 1
+
+- name: install the latest version of vim (3/3)
+  make: chdir=/usr/local/src/vim target=install
+  become: yes
+  when: pathvim.rc == 1
+
 - name: change to zsh service
   user: name=vagrant shell=/usr/local/bin/zsh
 
