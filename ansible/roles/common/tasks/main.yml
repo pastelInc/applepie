@@ -8,10 +8,6 @@
 - name: install the latest version of git
   yum: name=git state=latest
 
-- name: add some users
-  # python -c 'import crypt; print crypt.crypt("moongift", "$1$SomeSalt$")'
-  user: name={{item.name}} state=present password={{item.password}} groups={{item.groups}} shell={{item.shell}}
-  with_items: users
 
 - name: copy a new sudoers file
   copy: src=sudoers dest=/etc/sudoers owner=root group=root mode=0440
