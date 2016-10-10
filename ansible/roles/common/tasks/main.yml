@@ -109,4 +109,15 @@
 - name: action to enable service sshd
   service: name=sshd enabled=yes
 
+- name: checkout my dotfiles
+  git: repo=https://github.com/pastelInc/dotfiles.git dest=/home/vagrant/dotfiles
+  become: yes
+  become_user: vagrant
+
+- name: install my dotfiles
+  command: /usr/bin/make install
+  args:
+    chdir: /home/vagrant/dotfiles
+  become: yes
+  become_user: vagrant
 ...
