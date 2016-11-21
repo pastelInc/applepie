@@ -1,4 +1,9 @@
 ---
 users:
-  - { name: moongift, password: $1$bboMnDSk$L7gQA546K.0SOF5jdwtNa1, groups: wheel, shell: /bin/zsh }
-...
+  - { name: red158 }
+dockerusers:
+  - { name: red158, groups: "red158,docker" }
+sshusers:
+  - { name: red158 }
+zshusers:
+  - { name: red158, shell: /usr/local/bin/zsh }

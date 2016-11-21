@@ -1,3 +1,2 @@
 ---
-- include: developments.yml
-...
+- include: localhosts.yml

@@ -1,0 +1,12 @@
+---
+- name: copy a new sshd file
+  notify:
+    - action to restart service sshd
+  copy: src=sshd_config dest=/etc/ssh/sshd_config owner=root group=root mode=0600
+
+- name: action to enable service sshd
+  service: name=sshd enabled=yes
+
+- name: generate ssh key
+  user: name={{ item.name }} generate_ssh_key=yes ssh_key_bits=4096 ssh_key_file=.ssh/id_rsa
+  with_items: "{{ sshusers }}"

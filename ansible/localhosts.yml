@@ -1,7 +1,6 @@
 ---
-- hosts: developments
+- hosts: localhosts
   connection: local
   become: yes
   roles:
     - common
-...

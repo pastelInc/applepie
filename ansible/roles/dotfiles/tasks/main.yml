@@ -1,0 +1,14 @@
+---
+- name: checkout my dotfiles
+  git: repo=https://github.com/pastelInc/dotfiles.git dest=/home/{{ item.name }}/dotfiles
+  become: yes
+  become_user: "{{ item.name }}" 
+  with_items: "{{ users }}"
+
+- name: install my dotfiles
+  command: /usr/bin/make install
+  args:
+    chdir: /home/{{ item.name }}/dotfiles
+  become: yes
+  become_user: "{{ item.name }}" 
+  with_items: "{{ users }}"
