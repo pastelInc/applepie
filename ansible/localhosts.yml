@@ -4,3 +4,9 @@
   become: yes
   roles:
     - common
+    - openssl
+    - git
+    - php
+    - zsh
+    - dotfiles
+
