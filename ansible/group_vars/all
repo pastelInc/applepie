@@ -1,9 +1,0 @@
----
-users:
-  - { name: red158 }
-dockerusers:
-  - { name: red158, groups: "red158,docker" }
-sshusers:
-  - { name: red158 }
-zshusers:
-  - { name: red158, shell: /usr/local/bin/zsh }

@@ -1,2 +1,2 @@
 ---
-- include: localhosts.yml
+- include: vagrant.yml

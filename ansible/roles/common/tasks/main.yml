@@ -4,13 +4,3 @@
 
 - name: add remi repository
   yum: name=http://rpms.famillecollet.com/enterprise/remi-release-7.rpm state=present
-
-- name: copy a new sudoers file
-  copy: src=sudoers dest=/etc/sudoers owner=root group=root mode=0440
-
-- name: copy a new resolv.conf file
-  copy: src=resolv.conf dest=/etc/resolv.conf owner=root group=root mode=0644
-
-- name: create new users
-  user: name={{ item.name }}
-  with_items: "{{ users }}"
