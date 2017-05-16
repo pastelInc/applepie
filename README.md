@@ -1,6 +1,6 @@
-# hammock
+# workspace-vagrant-demo
 
-My php workspace
+My workspace
 
 ## Usage
 
